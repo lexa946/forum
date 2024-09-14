@@ -1,0 +1,13 @@
+.idea
+venv
+
+config.py
+alembic.ini
+
+
+
+comments/requirements.txt
+threads/requirements.txt
+front/requirements.txt
+
+

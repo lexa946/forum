@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% import 'macroses.html' as macroses with context %}
+
+{% block content %}
+    {% for thread in threads %}
+
+        {{ macroses.thread_card(thread) }}
+
+    {% endfor %}
+{% endblock %}
