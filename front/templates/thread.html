@@ -3,4 +3,10 @@
 
 {% block content %}
     {{ macroses.thread_card(thread) }}
+
+    {% for comment in comments %}
+        {{ macroses.comment_card(comment) }}
+
+    {% endfor %}
+
 {% endblock %}

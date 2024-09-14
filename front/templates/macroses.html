@@ -1,17 +1,27 @@
-
 {% macro thread_card(thread) %}
 <div class="card my-3" id="thread-{{ thread.id }}">
     {% if thread.nick %}
-      <div class="card-header">
-          {{ thread.nick }}
-      </div>
+    <div class="card-header">
+        {{ thread.nick }}
+    </div>
     {% endif %}
-  <div class="card-body">
-    <h5 class="card-title">{{ thread.title }}</h5>
-    <p class="card-text">{{ thread.text }}</p>
-    {% if request.url != url_for('thread', id=thread.id) %}
-       <a href="{{ url_for('thread', id=thread.id) }}" class="btn btn-primary">Ответить</a>
-    {% endif %}
-  </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ thread.title }}</h5>
+        <p class="card-text">{{ thread.text }}</p>
+        {% if request.url != url_for('thread', id=thread.id) %}
+        <a href="{{ url_for('thread', id=thread.id) }}" class="btn btn-primary">Ответить</a>
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+
+{% macro comment_card(comment) %}
+<div class="card my-3" id="comment-{{ comment.id }}">
+    <div class="card-header">{{ comment.nick|default('Аноним', true)  }}</div>
+    <div class="card-body">
+        <p class="card-text">{{ comment.text }}</p>
+        <button class="btn">ответить</button>
+    </div>
 </div>
 {% endmacro %}

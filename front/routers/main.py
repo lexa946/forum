@@ -36,9 +36,18 @@ async def thread(request: Request, id: Annotated[int, Path(ge=1)]):
         async with session.get(f"http://127.0.0.1:8083/forum/api/v1/thread/{id}") as response:
             if response.ok:
                 json_ = await response.json()
-                return templates.TemplateResponse("thread.html", {
-                    "request": request, "thread": json_['thread'],
-                })
+                thread = json_['thread']
+
+        async with session.get(f"http://127.0.0.1:8082/forum/api/v1/comment/thread", params={
+            "thread_id": thread['id'],
+        }) as response:
+            if response.ok:
+                json_ = await response.json()
+                comments = json_['comments']
+
+    return templates.TemplateResponse("thread.html", {
+        "request": request, "thread": thread, "comments": comments
+    })
 
 @router.get('/thread/create', name='thread_create')
 async def thread_create(request: Request):
