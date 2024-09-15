@@ -9,7 +9,8 @@
         <h5 class="card-title">{{ thread.title }}</h5>
         <p class="card-text">{{ thread.text }}</p>
         {% if request.url != url_for('thread', id=thread.id) %}
-        <a href="{{ url_for('thread', id=thread.id) }}" class="btn btn-primary">Ответить</a>
+<!--        <a href="{{ url_for('thread', id=thread.id) }}" class="btn btn-primary">Ответить</a>-->
+        <a href="/forum/thread/{{ thread.id }}" class="btn btn-primary">Ответить</a>
         {% endif %}
     </div>
 </div>

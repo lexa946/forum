@@ -2,7 +2,8 @@
 
 {% block content %}
 <div class="d-flex justify-content-center">
-    <form action="{{ url_for('thread_create') }}" method="post" style="" class="w-75">
+<!--    <form action="{{ url_for('thread_create') }}" method="post" style="" class="w-75">-->
+    <form action="/forum/thread/create" method="post" style="" class="w-75">
     <div class="input-group mb-3">
         <input type="text" name="title" class="form-control" maxlength="150"
                placeholder="Заголовок..." aria-label="Add title" aria-describedby="button-aadon2" required/>
