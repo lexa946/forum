@@ -6,11 +6,16 @@ from starlette import status
 from aiohttp import ClientSession
 from starlette.responses import RedirectResponse
 
+from filters import iso_str_date_to_format
+from schemas.main import SThreadAdd, SCommentAdd
 
-from schemas.main import SThreadAdd
+from jinja2 import Environment
+
 
 router = APIRouter(prefix="/forum", tags=["Комментарии"])
 templates = Jinja2Templates(directory='templates')
+templates.env.filters['iso_str_date_to_format'] = iso_str_date_to_format
+
 
 
 @router.get('/', name='index')
@@ -69,3 +74,6 @@ async def thread_create(request: Request, thread_add: Annotated[SThreadAdd, Form
             if response.ok:
                 json_ = await response.json()
                 return RedirectResponse(request.url_for('thread', id=json_['thread']['id']), status_code=status.HTTP_302_FOUND)
+
+
+

@@ -20,6 +20,5 @@ class SComment(SCommentAdd):
 
 class SGetCommentsThread(BaseModel):
     thread_id: int = Field(ge=1)
-    limit: int = 20
     offset: int = 0
 

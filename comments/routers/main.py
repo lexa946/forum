@@ -11,7 +11,7 @@ router = APIRouter(prefix="/forum/api/v1/comment", tags=["Комментарии
 
 
 @router.post('/')
-async def add_thread(add_thread: SCommentAdd) -> SCommentResponse:
+async def add_comment(add_thread: SCommentAdd) -> SCommentResponse:
     comment: SComment = await CommentRepository.add_comment(add_thread)
     return {
         "status_code": status.HTTP_201_CREATED,
@@ -19,8 +19,10 @@ async def add_thread(add_thread: SCommentAdd) -> SCommentResponse:
     }
 
 
+
+
 @router.get('/{comment_id:int}')
-async def get_thread(comment_id: Annotated[int, Path(ge=1)]) -> SCommentResponse:
+async def get_comment(comment_id: Annotated[int, Path(ge=1)]) -> SCommentResponse:
     comment: SComment = await CommentRepository.get_comment(comment_id)
     return {
         "status_code": status.HTTP_200_OK,
@@ -31,11 +33,10 @@ async def get_thread(comment_id: Annotated[int, Path(ge=1)]) -> SCommentResponse
 
 
 @router.get('/thread')
-async def get_thread(get_comments_thread: Annotated[SGetCommentsThread, Depends()]) -> SCommentsResponse:
+async def get_thread_comments(get_comments_thread: Annotated[SGetCommentsThread, Depends()]) -> SCommentsResponse:
     comments: list[SComment] = await CommentRepository.get_comments(
         thread_id=get_comments_thread.thread_id,
         offset=get_comments_thread.offset,
-        limit=get_comments_thread.limit,
     )
     return {
         "status_code": status.HTTP_200_OK,

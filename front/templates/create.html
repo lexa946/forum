@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<form action="{{ url_for('thread_create') }}" method="post" style="max-width: 60%;" class="mx-auto">
+<div class="d-flex justify-content-center">
+    <form action="{{ url_for('thread_create') }}" method="post" style="" class="w-75">
     <div class="input-group mb-3">
         <input type="text" name="title" class="form-control" maxlength="150"
                placeholder="Заголовок..." aria-label="Add title" aria-describedby="button-aadon2" required/>
@@ -17,4 +17,6 @@
         <textarea class="form-control" id="text" name="text" rows="3" placeholder="Пиши свою пасту анон..." required maxlength="1500"></textarea>
     </div>
 </form>
+</div>
+
 {% endblock %}

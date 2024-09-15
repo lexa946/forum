@@ -12,5 +12,5 @@ class Thread(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     title: Mapped[str] = mapped_column(String(150), nullable=False)
     text: Mapped[str] = mapped_column(String(1500), nullable=False)
-    create_at: Mapped[datetime] = mapped_column(default=datetime.utcnow())
+    create_at: Mapped[datetime] = mapped_column(default=datetime.now)
     nick: Mapped[str] = mapped_column(String(15), nullable=True)

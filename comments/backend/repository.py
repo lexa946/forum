@@ -37,13 +37,12 @@ class CommentRepository:
             return SComment.model_validate(comment)
 
     @classmethod
-    async def get_comments(cls, thread_id: int, offset: int = 0, limit: int = 20) -> list[SComment]:
+    async def get_comments(cls, thread_id: int, offset: int = 0) -> list[SComment]:
         async with new_session() as session:
             session: AsyncSession
 
         query = await session.scalars(
-            select(Comment).where(Comment.thread_id == thread_id).order_by(Comment.create_at).offset(offset).limit(
-                limit)
+            select(Comment).where(Comment.thread_id == thread_id).order_by(Comment.create_at).offset(offset)
         )
         comments = query.all()
         return [SComment.model_validate(comment) for comment in comments]

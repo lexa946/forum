@@ -17,8 +17,9 @@
 
 
 {% macro comment_card(comment) %}
-<div class="card my-3" id="comment-{{ comment.id }}">
-    <div class="card-header">{{ comment.nick|default('Аноним', true)  }}</div>
+<div class="card my-3 comment" id="comment-{{ comment.id }}">
+    <div class="card-header">{{ comment.nick|default('Аноним', true)  }} |
+        {{ comment.create_at | iso_str_date_to_format }} | №{{ comment.id }} |</div>
     <div class="card-body">
         <p class="card-text">{{ comment.text }}</p>
         <button class="btn">ответить</button>
