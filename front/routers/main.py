@@ -23,9 +23,6 @@ async def index(request: Request):
     async with ClientSession() as session:
         async with session.get(f"http://alex.pozharsite.ru/forum/api/v1/thread/all") as response:
         # async with session.get(f"http://127.0.0.1:8083/forum/api/v1/thread/all") as response:
-        #     print(request.base_url)
-        #     print(request.url)
-        #     print(request.client.host)
             if response.ok:
                 json_ = await response.json()
 
@@ -71,14 +68,15 @@ async def thread_create(request: Request):
 async def thread_create(request: Request, thread_add: Annotated[SThreadAdd, Form()]):
     async with ClientSession() as session:
         # async with session.post(f"http://127.0.0.1:8083/forum/api/v1/thread/", json={
-        async with session.post(f"http://{request.base_url}/forum/api/v1/thread/", json={
+        async with session.post(f"http://alex.pozharsite.ru/forum/api/v1/thread/", json={
             "title": thread_add.title,
             "text": thread_add.text,
             "nick": thread_add.nick,
         }) as response:
             if response.ok:
                 json_ = await response.json()
-                return RedirectResponse(request.url_for('thread', id=json_['thread']['id']), status_code=status.HTTP_302_FOUND)
+                # return RedirectResponse(request.url_for('thread', id=json_['thread']['id']), status_code=status.HTTP_302_FOUND)
+                return RedirectResponse(f"/{json_['thread']['id']}", status_code=status.HTTP_302_FOUND)
 
 
 

@@ -21,7 +21,7 @@ $(function() {
                 let commentCard = $('<div class="card my-3 comment" id="comment-{{ comment.id }}">' +
                     '<div class="card-header">'+ (response.comment.nick || 'Аноним')+ ' | '+
                         moment(response.comment.create_at).format('HH:mm DD.MM.YYYY') +
-                        ' | №' + response.comment.id +
+                        ' | №' + response.comment.id + " |" +
                     '</div>'+
                     '<div class="card-body">' +
                         '<p class="card-text">'+ response.comment.text +'</p>'+

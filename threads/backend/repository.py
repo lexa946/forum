@@ -42,7 +42,7 @@ class ThreadRepository:
             session: AsyncSession
 
             query = await session.scalars(
-                select(Thread).order_by(Thread.create_at).offset(paginator.offset).limit(
+                select(Thread).order_by(Thread.create_at.desc()).offset(paginator.offset).limit(
                     paginator.limit)
             )
 
