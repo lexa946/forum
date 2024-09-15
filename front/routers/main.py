@@ -76,7 +76,7 @@ async def thread_create(request: Request, thread_add: Annotated[SThreadAdd, Form
             if response.ok:
                 json_ = await response.json()
                 # return RedirectResponse(request.url_for('thread', id=json_['thread']['id']), status_code=status.HTTP_302_FOUND)
-                return RedirectResponse(f"/{json_['thread']['id']}", status_code=status.HTTP_302_FOUND)
+                return RedirectResponse(f"/forum/{json_['thread']['id']}", status_code=status.HTTP_302_FOUND)
 
 
 
