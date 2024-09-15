@@ -9,7 +9,8 @@ $('#refresh').click(event => {
         console.log(json);
 
         $.ajax({
-            url:"http://127.0.0.1:8082/forum/api/v1/comment/thread",
+//            url:"http://127.0.0.1:8082/forum/api/v1/comment/thread",
+            url:"http://"+ location.host +"/forum/api/v1/comment/thread",
             type: "GET",
             data: json,
 //            contentType: "application/json",

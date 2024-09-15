@@ -21,9 +21,11 @@ templates.env.filters['iso_str_date_to_format'] = iso_str_date_to_format
 @router.get('/', name='index')
 async def index(request: Request):
     async with ClientSession() as session:
-        async with session.get(f"{request.base_url}/forum/api/v1/thread/all") as response:
+        async with session.get(f"{request.client.host}/forum/api/v1/thread/all") as response:
         # async with session.get(f"http://127.0.0.1:8083/forum/api/v1/thread/all") as response:
-
+        #     print(request.base_url)
+        #     print(request.url)
+        #     print(request.client.host)
             if response.ok:
                 json_ = await response.json()
 
@@ -38,13 +40,13 @@ async def index(request: Request):
 @router.get('/{id:int}', name='thread')
 async def thread(request: Request, id: Annotated[int, Path(ge=1)]):
     async with ClientSession() as session:
-        async with session.get(f"http://{request.base_url}/forum/api/v1/thread/{id}") as response:
+        async with session.get(f"http://{request.client.host}/forum/api/v1/thread/{id}") as response:
         # async with session.get(f"http://127.0.0.1:8083/forum/api/v1/thread/{id}") as response:
             if response.ok:
                 json_ = await response.json()
                 thread = json_['thread']
 
-        async with session.get(f"http://{request.base_url}/forum/api/v1/comment/thread", params={
+        async with session.get(f"http://{request.client.host}/forum/api/v1/comment/thread", params={
         # async with session.get(f"http://127.0.0.1:8082/forum/api/v1/comment/thread", params={
             "thread_id": thread['id'],
         }) as response:

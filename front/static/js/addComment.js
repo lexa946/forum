@@ -12,7 +12,8 @@ $(function() {
             console.log(JSON.stringify(json));
 
             $.ajax({
-                  url: "http://127.0.0.1:8082/forum/api/v1/comment/",
+//                  url: "http://127.0.0.1:8082/forum/api/v1/comment/",
+                  url: "http://"+location.host+"/forum/api/v1/comment/",
                   type: "POST",
                   data: JSON.stringify(json),
                   contentType: "application/json",
