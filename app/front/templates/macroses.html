@@ -1,0 +1,40 @@
+{% macro thread_card(thread) %}
+    <div class="card my-3" id="thread-{{ thread.id }}">
+        {% if thread.nick %}
+            <div class="card-header">
+                {{ thread.nick }}
+            </div>
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ thread.title }}</h5>
+            <p class="card-text">{{ thread.text }}</p>
+            {% if request.url != url_for('thread', thread_id=thread.id) %}
+                <!--        <a href="{{ url_for('thread', thread_id=thread.id) }}" class="btn btn-primary">Ответить</a>-->
+                <a href="/forum/{{ thread.id }}" class="btn btn-primary">Ответить</a>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro comment_card(comment) %}
+    <div class="card my-3 comment" id="comment-{{ comment.id }}">
+        <div class="card-header">{{ comment.nick|default('Аноним', true) }} |
+            {{ comment.create_at | iso_str_date_to_format }} | №{{ comment.id }} |
+        </div>
+        <div class="card-body">
+            {% if comment.media %}
+                <div class="flex mb-5">
+                    {% for media in comment.media %}
+                        <a class="btn btn-outline-primary"
+                           href="http://185.204.2.28:9000/forum/{{ media.id }}_{{ media.filename }}">{{ media.filename }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <p class="card-text">{{ comment.text }}</p>
+
+            <button class="btn">ответить</button>
+        </div>
+
+    </div>
+{% endmacro %}

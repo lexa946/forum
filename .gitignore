@@ -1,9 +1,7 @@
 .idea
 venv
 
-config.py
-alembic.ini
-
+.env
 
 
 
