@@ -1,24 +1,12 @@
 version: "3"
 
 services:
-  comment:
+  forum:
     restart: always
-    image: forum_comments:latest
+    image: forum:latest
     ports:
       - "8084:80"
 
-  thread:
-    restart: always
-    image: forum_threads:latest
-    ports:
-      - "8085:80"
-
-
-  front:
-    restart: always
-    image: forum_front:latest
-    ports:
-      - "8086:80"
 
 
 
