@@ -41,7 +41,6 @@ async def get_thread_comments(thread_id: int, paginator: Annotated[SPaginator, D
         limit=paginator.limit,
         order_by="asc"
     )
-    print(c)
     return SCommentsResponse(
         status_code=status.HTTP_200_OK,
         comments=comments
