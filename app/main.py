@@ -14,7 +14,7 @@ app.include_router(comment_router)
 app.include_router(front_router)
 
 origins = [
-    'http://localhost:8000', 'http://0.0.0.0', 'http://alex.pozharsite.ru',
+    'http://localhost:8000', 'http://0.0.0.0', 'http://alex.pozharsite.ru', "http://185.204.2.28:9000"
 ]
 app.add_middleware(
     CORSMiddleware,
