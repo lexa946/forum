@@ -24,10 +24,37 @@
         </div>
         <div class="card-body">
             {% if comment.media %}
+
+                <div class="videos mb-2">
+                    {% for media in comment.media|selectattr("filename", "include_extension", ["mp4", "webm"]) %}
+                        <video id="my-player" class="m-2 video-js" data-setup='{}' controls width="320" height="240">
+                            {% if "mp4" == media.filename[-3:] %}
+                                <source src="{{ media.s3_url }}#t=0.1" type="video/mp4"></source>
+                            {% elif "webm" == media.filename[-4:] %}
+                                <source src="{{ media.s3_url }}#t=0.1" type="video/webm"></source>
+                            {% endif %}
+                        </video>
+                    {% endfor %}
+
+                </div>
+
+                <div class="pictures mb-2">
+                    {% for media in comment.media|selectattr("filename", "include_extension", ["jpg", "jpeg", "png", "tiff", "gif", "webp"]) %}
+                        <a href="{{ media.s3_url }}" data-lightbox="roadtrip" data-lightbox="{{ media.filename }}"
+                           data-title="{{ media.filename }}">
+                            <img src="{{ media.s3_url }}" class="img-thumbnail" alt="{{ media.filename }}"
+                                 style="width: auto; max-height: 150px;">
+                        </a>
+                    {% endfor %}
+                </div>
+
+
+
+
                 <div class="flex mb-5">
                     {% for media in comment.media %}
                         <a class="btn btn-outline-primary"
-                           href="http://185.204.2.28:9000/forum/{{ media.id }}_{{ media.filename }}">{{ media.filename }}</a>
+                           href="{{ media.s3_url }}">{{ media.filename }}</a>
                     {% endfor %}
                 </div>
             {% endif %}

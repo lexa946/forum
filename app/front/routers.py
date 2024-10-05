@@ -11,11 +11,11 @@ from app.threads.routers import get_threads, get_thread, add_thread
 from app.comments.routers import get_thread_comments
 from app.schemas.base import SPaginator
 from app.threads.schemas import SThreadAdd
-
-router = APIRouter(prefix="/forum", tags=["Комментарии"])
+from app.front.jinja_tests import include_extension
+router = APIRouter(prefix="/forum", tags=["Фронт"])
 templates = Jinja2Templates(directory='app/front/templates')
 templates.env.filters['iso_str_date_to_format'] = iso_str_date_to_format
-
+templates.env.tests['include_extension'] = include_extension
 
 
 @router.get('/', name='index')

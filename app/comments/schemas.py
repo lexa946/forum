@@ -8,6 +8,7 @@ class SMedia(BaseModel):
     id: int
     comment_id: int
     filename: str
+    s3_url:str
 
     class Config:
         from_attributes = True

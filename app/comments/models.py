@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import String, ForeignKey
+from sqlalchemy import String, ForeignKey, URL
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -23,5 +23,6 @@ class CommentMedia(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), index=True)
     filename:Mapped[str] =  mapped_column(String(150), nullable=False)
+    s3_url: Mapped[str] = mapped_column(nullable=True, unique=True)
 
     comment = relationship(Comment, back_populates="media", lazy="selectin")

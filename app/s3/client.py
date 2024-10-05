@@ -1,8 +1,5 @@
 from contextlib import asynccontextmanager
-from pathlib import Path
-
 from aiobotocore.session import get_session
-from fastapi import UploadFile
 
 from app.config import settings
 
@@ -22,17 +19,11 @@ class S3Client:
         async with self.session.create_client('s3', **self.config) as s3_client:
             yield s3_client
 
-    # async def upload_file(self, file_path:str) -> None:
-    #     object_name = Path(file_path).name
-    #     async with self.get_client() as client:
-    #         with open(file_path, 'rb') as file:
-    #             data = await client.put_object(Bucket=self.bucket_name, Key=object_name, Body=file)
-    #             print(data)
 
     async def upload_file(self, key, body) -> None:
         async with self.get_client() as client:
-            response = await client.put_object(Bucket=self.bucket_name, Key=key, Body=body)
-            return response
+            await client.put_object(Bucket=self.bucket_name, Key=key, Body=body)
+            return f"{self.config['endpoint_url']}/{self.bucket_name}/{key}"
 
 
 s3_client = S3Client(

@@ -15,7 +15,6 @@ async def add_comment(text: Annotated[str, Form()],
                       thread_id: Annotated[int, Form(ge=1)],
                       nick: Annotated[str, Form()] = "Аноним",
                       files: Union[list[UploadFile], None] = None):
-    print(f"{files=}")
     comment = SCommentAdd(text=text, nick=nick, thread_id=thread_id)
     comment = await CommentDAO.add(comment=comment, files=files)
     return SCommentResponse(

@@ -1,6 +1,6 @@
 from fastapi import UploadFile
 from sqlalchemy import select
-from sqlalchemy.orm import selectinload
+
 
 from app.comments.models import Comment, CommentMedia
 from app.comments.schemas import SCommentAdd
@@ -25,7 +25,8 @@ class CommentDAO(BaseDAO):
                     media = CommentMedia(comment_id=comment.id, filename=file.filename)
                     session.add(media)
                     await session.flush()
-                    await s3_client.upload_file(key=f"{media.id}_{media.filename}", body=file.file)
+                    s3_url = await s3_client.upload_file(key=f"{media.id}_{media.filename}", body=file.file)
+                    media.s3_url = s3_url
 
             await session.commit()
             comment = await session.scalar(select(Comment).where(Comment.id == comment.id))
