@@ -20,15 +20,24 @@ class S3Client:
             yield s3_client
 
 
-    async def upload_file(self, key, body) -> None:
+    async def upload_file(self, key, body) -> str:
         async with self.get_client() as client:
             await client.put_object(Bucket=self.bucket_name, Key=key, Body=body)
             return f"{self.config['endpoint_url']}/{self.bucket_name}/{key}"
 
+    async def get_file(self, key):
+        async with self.get_client() as client:
+            file = await client.get_object(Bucket=self.bucket_name, Key=key)
+            return file
+
+if settings.MODE == "TEST":
+    bucket_name = settings.S3_TEST_BUCKET_NAME
+else:
+    bucket_name = settings.S3_BUCKET_NAME
 
 s3_client = S3Client(
     access_key=settings.S3_ACCESS_KEY,
     secret_key=settings.S3_SECRET_KEY,
     endpoint_url=settings.S3_ENDPOINT_URL,
-    bucket_name=settings.S3_BUCKET_NAME
+    bucket_name=bucket_name
 )

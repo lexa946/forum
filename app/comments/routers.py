@@ -3,18 +3,24 @@ from typing import Annotated, Union
 from fastapi import APIRouter, Path, Depends, status, UploadFile, Form, File
 
 from app.comments.dao import CommentDAO
-from app.comments.schemas import SComment, SCommentResponse, SCommentAdd, SCommentsResponse
-from app.exceptions import CommentNotFount
+from app.comments.schemas import SCommentResponse, SCommentAdd, SCommentsResponse
+from app.threads.routers import get_thread
+from app.exceptions import CommentNotFount, ThreadNotFound
 from app.schemas.base import SPaginator
 
 router = APIRouter(prefix="/forum/api/v1/comment", tags=["Комментарии"])
 
 
 @router.post('/')
-async def add_comment(text: Annotated[str, Form()],
+async def add_comment(text: Annotated[str, Form(min_length=1, max_length=1500)],
                       thread_id: Annotated[int, Form(ge=1)],
                       nick: Annotated[str, Form()] = "Аноним",
                       files: Union[list[UploadFile], None] = None):
+    thread = await get_thread(thread_id)
+    if not thread:
+        raise ThreadNotFound
+
+
     comment = SCommentAdd(text=text, nick=nick, thread_id=thread_id)
     comment = await CommentDAO.add(comment=comment, files=files)
     return SCommentResponse(

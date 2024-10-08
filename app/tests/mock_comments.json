@@ -1,0 +1,21 @@
+[
+  {
+    "thread_id": 1,
+    "text": "Да, прикольно ты сделал",
+    "nick": "Аноним",
+    "files": []
+  },
+  {
+    "thread_id": 2,
+    "text": "Коммент с 1 файлом",
+    "nick": "Аноним",
+    "files": ["app/tests/test_files/test_video_small.mp4"]
+
+  },
+  {
+    "thread_id": 2,
+    "text": "Вот это видео?",
+    "nick": "Санечек",
+    "files": ["app/tests/test_files/test_video_large.mp4"]
+  }
+]

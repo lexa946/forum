@@ -15,7 +15,7 @@ class SMedia(BaseModel):
 
 
 class SCommentAdd(BaseModel):
-    text: str = Field(examples=['Сделай уже что-нибудь!'], max_length=1500)
+    text: str = Field(examples=['Сделай уже что-нибудь!'], max_length=1500, min_length=1)
     nick: str | None = Field(examples=['БабкаВТапках'], default="Аноним", max_length=15,
                              description="Можешь добавить, а можешь и не добавлять.")
     thread_id: int = Field(description="ID Треда", ge=1)
