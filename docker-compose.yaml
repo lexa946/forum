@@ -1,19 +1,11 @@
-version: "3"
-
 services:
   forum:
-    restart: always
+    restart: unless-stopped
     image: forum:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
     ports:
       - "8084:80"
-
-
-
-
-
-
-
-
-
-
-
+    volumes:
+      - ./.env:/.env:ro

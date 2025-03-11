@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 from httpx import AsyncClient
 
-from app.s3.client import s3_client
+from app.s3.client_old import s3_client
 
 
 @pytest.mark.parametrize("comment_id,thread_id,text,nick,files_count,status_code", [

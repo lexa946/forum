@@ -3,16 +3,15 @@ import json
 from pathlib import Path
 
 import pytest
-from fastapi.testclient import TestClient
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import insert
 
-from app.comments.models import Comment, CommentMedia
+from app.api.comments import Comment, CommentMedia
 from app.main import app as fastapi_application
 from app.config import settings
 from app.database import Base, async_session_maker, engine
-from app.threads.models import Thread
-from app.s3.client import s3_client
+from app.api.threads import Thread
+from app.s3.client_old import s3_client
 
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_database():

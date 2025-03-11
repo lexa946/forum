@@ -1,5 +1,5 @@
 from app.dao.base import BaseDAO
-from app.threads.models import Thread
+from app.api.threads.models import Thread
 
 
 class ThreadDAO(BaseDAO):

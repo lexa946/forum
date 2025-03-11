@@ -1,5 +1,6 @@
-from contextlib import asynccontextmanager
-from aiobotocore.session import get_session
+from minio import Minio
+from minio.error import S3Error
+from io import BytesIO
 
 from app.config import settings
 
@@ -7,37 +8,50 @@ from app.config import settings
 class S3Client:
     def __init__(self, access_key: str, secret_key: str, endpoint_url: str, bucket_name: str):
         self.config = {
-            "aws_access_key_id": access_key,
-            "aws_secret_access_key": secret_key,
+            "access_key": access_key,
+            "secret_key": secret_key,
             "endpoint_url": endpoint_url,
         }
         self.bucket_name = bucket_name
-        self.session = get_session()
+        self.client = Minio(
+            endpoint_url.replace("http://", "").replace("https://", ""),
+            access_key=access_key,
+            secret_key=secret_key,
+            secure=endpoint_url.startswith("https")
+        )
 
-    @asynccontextmanager
-    async def get_client(self):
-        async with self.session.create_client('s3', **self.config) as s3_client:
-            yield s3_client
+        # Создаем бакет, если его нет
+        if not self.client.bucket_exists(bucket_name):
+            self.client.make_bucket(bucket_name)
 
-
-    async def upload_file(self, key, body) -> str:
-        async with self.get_client() as client:
-            await client.put_object(Bucket=self.bucket_name, Key=key, Body=body)
+    def upload_file(self, key, body, size) -> str:
+        """Загружает файл в Minio и возвращает его URL"""
+        try:
+            self.client.put_object(
+                bucket_name=self.bucket_name,
+                object_name=key,
+                data=body,
+                length=size,
+            )
             return f"{self.config['endpoint_url']}/{self.bucket_name}/{key}"
+        except S3Error as err:
+            print(f"Ошибка при загрузке файла: {err}")
+            return None
 
-    async def get_file(self, key):
-        async with self.get_client() as client:
-            file = await client.get_object(Bucket=self.bucket_name, Key=key)
-            return file
+    def get_file(self, key):
+        """Получает файл из Minio"""
+        try:
+            response = self.client.get_object(self.bucket_name, key)
+            return response.read()  # Читаем содержимое файла
+        except S3Error as err:
+            print(f"Ошибка при получении файла: {err}")
+            return None
 
-if settings.MODE == "TEST":
-    bucket_name = settings.S3_TEST_BUCKET_NAME
-else:
-    bucket_name = settings.S3_BUCKET_NAME
+
 
 s3_client = S3Client(
     access_key=settings.S3_ACCESS_KEY,
     secret_key=settings.S3_SECRET_KEY,
     endpoint_url=settings.S3_ENDPOINT_URL,
-    bucket_name=bucket_name
+    bucket_name=settings.S3_BUCKET_NAME
 )

@@ -8,7 +8,7 @@
 
     <div id="comments">
         {% for comment in comments %}
-            {{ macroses.comment_card(comment) }}
+            {{ macroses.comment_card(comment, loop.index) }}
         {% endfor %}
 
     </div>

@@ -10,17 +10,17 @@
             <p class="card-text">{{ thread.text }}</p>
             {% if request.url != url_for('thread', thread_id=thread.id) %}
                 <!--        <a href="{{ url_for('thread', thread_id=thread.id) }}" class="btn btn-primary">Ответить</a>-->
-                <a href="/forum/{{ thread.id }}" class="btn btn-primary">Ответить</a>
+                <a href="/{{ thread.id }}" class="btn btn-primary">Ответить</a>
             {% endif %}
         </div>
     </div>
 {% endmacro %}
 
 
-{% macro comment_card(comment) %}
+{% macro comment_card(comment, number) %}
     <div class="card my-3 comment" id="comment-{{ comment.id }}">
         <div class="card-header">{{ comment.nick|default('Аноним', true) }} |
-            {{ comment.create_at | iso_str_date_to_format }} | №{{ comment.id }} |
+            {{ comment.create_at | iso_str_date_to_format }} | №{{ number }} |
         </div>
         <div class="card-body">
             {% if comment.media %}
@@ -47,9 +47,6 @@
                         </a>
                     {% endfor %}
                 </div>
-
-
-
 
                 <div class="flex mb-5">
                     {% for media in comment.media %}

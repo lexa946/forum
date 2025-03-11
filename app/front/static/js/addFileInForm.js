@@ -1,6 +1,4 @@
 function removeBtn(btn){
-    console.log(btn.parentNode)
-    console.log()
     $(btn.parentNode).remove();
 }
 

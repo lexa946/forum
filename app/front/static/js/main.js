@@ -73,9 +73,7 @@ function createCommentCard(comment) {
 };
 
 
-// Обновление комментариев
-$('#refresh').click(event => {
-
+function refresh(){
     let json = {
         thread_id: +$('form [name="thread_id"]').val(),
         offset: $('.comment').length,
@@ -83,9 +81,12 @@ $('#refresh').click(event => {
 
     $.ajax({
 
-        url: "http://" + location.host + "/forum/api/v1/comment/thread",
+        url: `http://${location.host}/api/v1/comment/thread`,
         type: "GET",
         data: json,
+        error: function (jqXHR, exception) {
+            console.log(jqXHR, exception)
+        }
     }).done(response => {
         console.log(response);
 
@@ -96,10 +97,15 @@ $('#refresh').click(event => {
         });
 
     });
-});
+};
+
+// Обновление комментариев
+$('#refresh').click(refresh);
 
 //Добавление нового комментария
 $('#add_comment').submit(function (e) {
+    refresh()
+
     e.preventDefault();
 
     let form = $(this);
@@ -110,17 +116,19 @@ $('#add_comment').submit(function (e) {
     });
 
     $.ajax({
-        url: "http://" + location.host + "/forum/api/v1/comment/",
+        url: `http://${location.host}/api/v1/comment`,
         method: "POST",
         data: form_data,
         processData: false,
         contentType: false,
         success: function (response) {
+
             let comment = response.comment;
             $('#comments').append(createCommentCard(comment));
             $('#text').val('');
         },
         error: function (jqXHR, exception) {
+            console.log(jqXHR, exception)
             alert('Проблема с добавлением комментария! Я хз че с тобой не так!');
         },
     });

@@ -1,14 +1,14 @@
 from typing import Annotated, Union
 
-from fastapi import APIRouter, Path, Depends, status, UploadFile, Form, File
+from fastapi import APIRouter, Path, Depends, status, UploadFile, Form
 
-from app.comments.dao import CommentDAO
-from app.comments.schemas import SCommentResponse, SCommentAdd, SCommentsResponse
-from app.threads.routers import get_thread
+from app.api.comments.dao import CommentDAO
+from app.api.comments.schemas import SCommentResponse, SCommentAdd, SCommentsResponse
+from app.api.threads.routers import get_thread
 from app.exceptions import CommentNotFount, ThreadNotFound
 from app.schemas.base import SPaginator
 
-router = APIRouter(prefix="/forum/api/v1/comment", tags=["Комментарии"])
+router = APIRouter(prefix="/comment", tags=["Комментарии"])
 
 
 @router.post('/')

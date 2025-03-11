@@ -4,15 +4,14 @@ from fastapi import APIRouter, Path, Request, HTTPException, Form, status
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-
-
 from app.front.filters import iso_str_date_to_format
-from app.threads.routers import get_threads, get_thread, add_thread
-from app.comments.routers import get_thread_comments
+from app.api.threads.routers import get_threads, get_thread, add_thread
+from app.api.comments.routers import get_thread_comments
 from app.schemas.base import SPaginator
-from app.threads.schemas import SThreadAdd
+from app.api.threads.schemas import SThreadAdd
 from app.front.jinja_tests import include_extension
-router = APIRouter(prefix="/forum", tags=["Фронт"])
+
+router = APIRouter(prefix="", tags=["Фронт"])
 templates = Jinja2Templates(directory='app/front/templates')
 templates.env.filters['iso_str_date_to_format'] = iso_str_date_to_format
 templates.env.tests['include_extension'] = include_extension
@@ -68,4 +67,4 @@ async def thread_create(request: Request, thread_add: Annotated[SThreadAdd, Form
     else:
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                             detail="Что-то с серваком! Уже чиню!")
-    return RedirectResponse(f"/forum/{thread.id}", status_code=status.HTTP_302_FOUND)
+    return RedirectResponse(f"/{thread.id}", status_code=status.HTTP_302_FOUND)

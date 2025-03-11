@@ -5,10 +5,10 @@ from starlette import status
 
 from app.exceptions import ThreadNotFound
 from app.schemas.base import SPaginator
-from app.threads.dao import ThreadDAO
-from app.threads.schemas import SThread, SThreadAdd, SThreadResponse, SThreadsResponse
+from app.api.threads.dao import ThreadDAO
+from app.api.threads.schemas import SThreadAdd, SThreadResponse, SThreadsResponse
 
-router = APIRouter(prefix="/forum/api/v1/thread", tags=["Треды"])
+router = APIRouter(prefix="/api/v1/thread", tags=["Треды"])
 
 
 @router.post('/')
