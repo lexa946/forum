@@ -23,15 +23,12 @@ function createCommentCard(comment) {
                 arrPictures.push(media)
             }
         }
-        console.log(arrVideos)
-        console.log(arrPictures)
 
         nodeComment += '<div class="videos mb-2">'
 
         for (let video of arrVideos) {
             nodeComment += '<video id="my-player" class="m-2 video-js" data-setup="{}" controls width="320" height="240">'
             let videoType = ""
-            console.log(video)
             if (video.filename.substr(-3) == "mp4") {
                 videoType = "video/mp4"
             } else if (video.filename.substr(-4) == "webm") {
@@ -56,7 +53,6 @@ function createCommentCard(comment) {
         nodeComment += '<div class="flex mb-5">'
 
         for (let media of comment.media) {
-            console.log(media.s3_url)
             nodeComment += '<a class="btn btn-outline-primary" href="' + media.s3_url + '">' + media.filename + '</a>'
         }
         nodeComment += "</div>"
@@ -81,15 +77,13 @@ function refresh(){
 
     $.ajax({
 
-        url: `http://${location.host}/api/v1/comment/thread`,
+        url: `${location.protocol}//${location.host}/api/v1/comment/thread`,
         type: "GET",
         data: json,
         error: function (jqXHR, exception) {
             console.log(jqXHR, exception)
         }
     }).done(response => {
-        console.log(response);
-
         response.comments.forEach(comment => {
 
             $('#comments').append(createCommentCard(comment));
@@ -116,7 +110,7 @@ $('#add_comment').submit(function (e) {
     });
 
     $.ajax({
-        url: `http://${location.host}/api/v1/comment`,
+        url: `${location.protocol}//${location.host}/api/v1/comment`,
         method: "POST",
         data: form_data,
         processData: false,
